@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio Digital</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .menu-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .menu-item {
+            display: grid;
+            grid-template-columns: auto 100px 120px;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .item-description {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .quantidade {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .carrinho {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            position: sticky;
+            top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .carrinho h2 {
+            margin-bottom: 15px;
+        }
+
+        #itens-carrinho {
+            margin-bottom: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .pagamento-opcoes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .botao-pagamento {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .botao-pagamento.selecionado {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .botoes {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .confirmar {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .cancelar {
+            background: #f44336;
+            color: white;
+        }
+
+        .total {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cardápio Digital</h1>
+    
+    <div class="container">
+        <div class="menu">
+            <!-- Seção de Hambúrgueres -->
+            <div class="menu-section">
+                <h2>Hambúrgueres</h2>
+                <div class="menu-item">
+                    <div>
+                        <h3>Hambúrguer Clássico</h3>
+                        <p class="item-description">Pão, hambúrguer, alface, tomate e maionese</p>
+                        <p>R$ 15,00</p>
+                    </div>
+                    <input type="number" min="0" value="0" class="quantidade" 
+                           data-id="1" data-nome="Hambúrguer Clássico" data-preco="15.00">
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <h3>Cheeseburger</h3>
+                        <p class="item-description">Pão, hambúrguer, queijo cheddar, alface, tomate</p>
+                        <p>R$ 18,00</p>
+                    </div>
+                    <input type="number" min="0" value="0" class="quantidade" 
+                           data-id="2" data-nome="Cheeseburger" data-preco="18.00">
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <h3>Duplo Bacon Burger</h3>
+                        <p class="item-description">Pão, dois hambúrgueres, queijo, bacon crocante</p>
+                        <p>R$ 22,00</p>
+                    </div>
+                    <input type="number" min="0" value="0" class="quantidade" 
+                           data-id="3" data-nome="Duplo Bacon Burger" data-preco="22.00">
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <h3>Veggie Burger</h3>
+                        <p class="item-description">Pão integral, hambúrguer de grão-de-bico, alface, tomate</p>
+                        <p>R$ 19,00</p>
+                    </div>
+                    <input type="number" min="0" value="0" class="quantidade" 
+                           data-id="4" data-nome="Veggie Burger" data-preco="19.00">
+                </div>
+            </div>
+    
+            <!-- Seção de Bebidas -->
+            <div class="menu-section">
+                <h2>Bebidas</h2>
+                <div class="menu-item">
+                    <div>
+                        <h3>Refrigerante Lata</h3>
+                        <p class="item-description">Coca-Cola, Guaraná, Fanta</p>
+                        <p>R$ 6,00</p>
+                    </div>
+                    <input type="number" min="0" value="0" class="quantidade" 
+                           data-id="5" data-nome="Refrigerante Lata" data-preco="6.00">
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <h3>Suco Natural</h3>
+                        <p class="item-description">Laranja, maracujá ou morango</p>
+                        <p>R$ 8,00</p>
+                    </div>
+                    <input type="number" min="0" value="0" class="quantidade" 
+                           data-id="6" data-nome="Suco Natural" data-preco="8.00">
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <h3>Água Mineral</h3>
+                        <p class="item-description">Com ou sem gás</p>
+                        <p>R$ 4,00</p>
+                    </div>
+                    <input type="number" min="0" value="0" class="quantidade" 
+                           data-id="7" data-nome="Água Mineral" data-preco="4.00">
+                </div>
+            </div>
+    
+            <!-- Seção de Sobremesas -->
+            <div class="menu-section">
+                <h2>Sobremesas</h2>
+                <div class="menu-item">
+                    <div>
+                        <h3>Petit Gateau</h3>
+                        <p class="item-description">Bolo quente com sorvete de creme</p>
+                        <p>R$ 14,00</p>
+                    </div>
+                    <input type="number" min="0" value="0" class="quantidade" 
+                           data-id="8" data-nome="Petit Gateau" data-preco="14.00">
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <h3>Milkshake</h3>
+                        <p class="item-description">Chocolate, morango ou baunilha</p>
+                        <p>R$ 12,00</p>
+                    </div>
+                    <input type="number" min="0" value="0" class="quantidade" 
+                           data-id="9" data-nome="Milkshake" data-preco="12.00">
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <h3>Pudim de Leite</h3>
+                        <p class="item-description">Sobremesa clássica de leite condensado</p>
+                        <p>R$ 10,00</p>
+                    </div>
+                    <input type="number" min="0" value="0" class="quantidade" 
+                           data-id="10" data-nome="Pudim de Leite" data-preco="10.00">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+        <div class="carrinho">
+            <h2>Seu Pedido</h2>
+            <div id="itens-carrinho"></div>
+            <div class="total">Total: R$ 0,00</div>
+
+            <div class="form-group">
+                <label>Nome Completo:</label>
+                <input type="text" id="nome" required>
+                
+                <label>Endereço:</label>
+                <input type="text" id="endereco" required>
+                
+                <label>Telefone:</label>
+                <input type="tel" id="telefone" required>
+            </div>
+
+            <div class="form-group">
+                <label>Forma de Pagamento:</label>
+                <div class="pagamento-opcoes">
+                    <button class="botao-pagamento" data-pagamento="credito">Crédito</button>
+                    <button class="botao-pagamento" data-pagamento="debito">Débito</button>
+                    <button class="botao-pagamento" data-pagamento="pix">PIX</button>
+                </div>
+            </div>
+
+            <div class="botoes">
+                <button class="confirmar" onclick="confirmarPedido()">Confirmar Pedido</button>
+                <button class="cancelar" onclick="cancelarPedido()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let carrinhoItens = {};
+        let formaPagamentoSelecionada = null;
+
+        // Atualiza o carrinho quando a quantidade de um item é alterada
+        document.querySelectorAll('.quantidade').forEach(input => {
+            input.addEventListener('change', atualizarCarrinho);
+        });
+
+        // Seleciona forma de pagamento
+        document.querySelectorAll('.botao-pagamento').forEach(botao => {
+            botao.addEventListener('click', (e) => {
+                document.querySelectorAll('.botao-pagamento').forEach(b => 
+                    b.classList.remove('selecionado'));
+                e.target.classList.add('selecionado');
+                formaPagamentoSelecionada = e.target.dataset.pagamento;
+            });
+        });
+
+        function atualizarCarrinho() {
+            carrinhoItens = {};
+            let total = 0;
+            let carrinhoHTML = '';
+
+            document.querySelectorAll('.quantidade').forEach(input => {
+                const quantidade = parseInt(input.value);
+                if (quantidade > 0) {
+                    const id = input.dataset.id;
+                    const nome = input.dataset.nome;
+                    const preco = parseFloat(input.dataset.preco);
+                    const subtotal = quantidade * preco;
+
+                    carrinhoItens[id] = {
+                        nome,
+                        quantidade,
+                        preco,
+                        subtotal
+                    };
+
+                    carrinhoHTML += `
+                        <div class="menu-item">
+                            <span>${quantidade}x ${nome}</span>
+                            <span>R$ ${subtotal.toFixed(2)}</span>
+                        </div>
+                    `;
+
+                    total += subtotal;
+                }
+            });
+
+            document.getElementById('itens-carrinho').innerHTML = carrinhoHTML;
+            document.querySelector('.total').innerHTML = `Total: R$ ${total.toFixed(2)}`;
+        }
+
+        function confirmarPedido() {
+            if (Object.keys(carrinhoItens).length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+
+            const nome = document.getElementById('nome').value;
+            const endereco = document.getElementById('endereco').value;
+            const telefone = document.getElementById('telefone').value;
+
+            if (!nome || !endereco || !telefone) {
+                alert('Por favor, preencha todos os dados de entrega!');
+                return;
+            }
+
+            if (!formaPagamentoSelecionada) {
+                alert('Por favor, selecione uma forma de pagamento!');
+                return;
+            }
+
+            const resumo = `
+                Pedido Confirmado!
+                
+                Cliente: ${nome}
+                Endereço: ${endereco}
+                Telefone: ${telefone}
+                
+                Itens do Pedido:
+                ${Object.values(carrinhoItens).map(item => 
+                    `${item.quantidade}x ${item.nome} - R$ ${item.subtotal.toFixed(2)}`
+                ).join('\n')}
+                
+                Total: R$ ${Object.values(carrinhoItens)
+                    .reduce((acc, item) => acc + item.subtotal, 0).toFixed(2)}
+                
+                Forma de Pagamento: ${formaPagamentoSelecionada.toUpperCase()}
+                
+                Seu pedido foi recebido e está sendo preparado!
+                Tempo estimado de entrega: 45-60 minutos
+            `;
+
+            alert(resumo);
+            limparPedido();
+        }
+
+        function cancelarPedido() {
+            if (confirm('Tem certeza que deseja cancelar o pedido?')) {
+                limparPedido();
+            }
+        }
+
+        function limparPedido() {
+            document.querySelectorAll('.quantidade').forEach(input => {
+                input.value = 0;
+            });
+            document.getElementById('nome').value = '';
+            document.getElementById('endereco').value = '';
+            document.getElementById('telefone').value = '';
+            document.querySelectorAll('.botao-pagamento').forEach(botao => {
+                botao.classList.remove('selecionado');
+            });
+            formaPagamentoSelecionada = null;
+            carrinhoItens = {};
+            atualizarCarrinho();
+        }
+    </script>
+</body>
+</html>
